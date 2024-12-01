@@ -8,13 +8,7 @@ pub fn solve(input: &(Vec<usize>, Vec<usize>)) {
     let result = first
         .iter()
         .zip(second)
-        .map(|(first, second)| {
-            if first > &second {
-                first - second
-            } else {
-                second - first
-            }
-        })
+        .map(|(first, second)| first.abs_diff(second))
         .sum::<usize>();
 
     println!("Part 1 solution: {}", result);

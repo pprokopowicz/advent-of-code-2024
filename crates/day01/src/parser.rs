@@ -3,22 +3,27 @@ use reader::{read_file, File};
 pub fn parse() -> (Vec<usize>, Vec<usize>) {
     let content = read_file(File::Day01);
 
-    let output = content
-        .lines()
-        .map(|line| {
-            let mut split = line.split_whitespace();
+    let mut first_column = vec![];
+    let mut second_column = vec![];
 
-            let first = split.next().unwrap().parse::<usize>().unwrap();
-            let second = split.next().unwrap().parse::<usize>().unwrap();
+    content.lines().for_each(|line| {
+        let mut split = line.split_whitespace();
 
-            (first, second)
-        })
-        .fold((Vec::new(), Vec::new()), |mut acc, (first, second)| {
-            acc.0.push(first);
-            acc.1.push(second);
+        let first_num = split
+            .next()
+            .unwrap()
+            .parse::<usize>()
+            .expect("First part is not a number!");
 
-            acc
-        });
+        let second_num = split
+            .next()
+            .unwrap()
+            .parse::<usize>()
+            .expect("Second part is not a number!");
 
-    return output;
+        first_column.push(first_num);
+        second_column.push(second_num);
+    });
+
+    return (first_column, second_column);
 }

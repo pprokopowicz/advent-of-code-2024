@@ -6,7 +6,7 @@ pub enum File {
 
 fn file_name(file: File) -> String {
     let index = file as u32;
-    
+
     if index > 9 {
         format!("inputs/day{}.txt", index)
     } else {

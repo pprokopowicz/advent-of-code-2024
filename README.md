@@ -17,3 +17,4 @@ foo@bar:~$ cargo run -p day<day_number>
 ## Days
 
 - [01 - Historian Hysteria](crates/day01)
+- [02 - Red-Nosed Reports](crates/day02)

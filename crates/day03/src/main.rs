@@ -1,3 +1,8 @@
+mod parser;
+mod part1;
+
 fn main() {
-    println!("Hello, world!");
+    let input = parser::parse();
+
+    part1::solve(&input);
 }

@@ -1,7 +1,7 @@
 use reader::{read_file, File};
 
 pub fn parse() -> (Vec<usize>, Vec<usize>) {
-    let content = read_file(File::Day01);
+    let content = read_file(&File::Day01);
 
     let mut first_column = vec![];
     let mut second_column = vec![];

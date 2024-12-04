@@ -1,7 +1,7 @@
 use reader::{read_file, File};
 
 pub fn parse() -> Vec<Vec<usize>> {
-    let content = read_file(File::Day02);
+    let content = read_file(&File::Day02);
 
     let output = content
         .lines()

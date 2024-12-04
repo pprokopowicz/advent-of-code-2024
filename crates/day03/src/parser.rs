@@ -9,7 +9,7 @@ pub enum Instruction {
 }
 
 pub fn parse() -> Vec<Instruction> {
-    let content = read_file(File::Day03);
+    let content = read_file(&File::Day03);
     let regex = Regex::new(r"mul\(\d*,\d*\)|do\(\)|don't\(\)").unwrap();
 
     let output = regex

@@ -31,6 +31,6 @@ fn example_filename(file: &File) -> String {
 pub fn read_file(file: &File) -> String {
     match fs::read_to_string(file_name(&file)) {
         Ok(output) => output,
-        Err(_) => fs::read_to_string(example_filename(&file)).unwrap()
+        Err(_) => fs::read_to_string(example_filename(&file)).unwrap(),
     }
 }

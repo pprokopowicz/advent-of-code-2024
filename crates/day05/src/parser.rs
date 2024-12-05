@@ -1,23 +1,8 @@
 use reader::{read_file, File};
 
-#[derive(Debug, Clone)]
-pub struct Rule {
-    pub lhs: usize,
-    pub rhs: usize,
-}
+use crate::model::{ManualUpdateData, PageUpdates, Rule};
 
-#[derive(Debug, Clone)]
-pub struct Updates {
-    pub list: Vec<usize>,
-}
-
-#[derive(Debug, Clone)]
-pub struct Data {
-    pub rules: Vec<Rule>,
-    pub updates: Vec<Updates>,
-}
-
-pub fn parse() -> Data {
+pub fn parse() -> ManualUpdateData {
     let content = read_file(&File::Day05);
 
     let mut split = content.split("\n\n");
@@ -27,7 +12,7 @@ pub fn parse() -> Data {
     let rules = rules_from(rules_str);
     let updates = updates_from(updates_str);
 
-    Data { rules, updates }
+    ManualUpdateData { rules, updates }
 }
 
 fn rules_from(rules_str: &str) -> Vec<Rule> {
@@ -52,7 +37,7 @@ fn rules_from(rules_str: &str) -> Vec<Rule> {
         .collect::<Vec<Rule>>()
 }
 
-fn updates_from(updates_str: &str) -> Vec<Updates> {
+fn updates_from(updates_str: &str) -> Vec<PageUpdates> {
     updates_str
         .lines()
         .map(|line| {
@@ -61,7 +46,7 @@ fn updates_from(updates_str: &str) -> Vec<Updates> {
                 .map(|num_str| num_str.parse::<usize>().expect("Update must be a number!"))
                 .collect::<Vec<usize>>();
 
-            Updates { list: update_list }
+            PageUpdates { list: update_list }
         })
-        .collect::<Vec<Updates>>()
+        .collect::<Vec<PageUpdates>>()
 }

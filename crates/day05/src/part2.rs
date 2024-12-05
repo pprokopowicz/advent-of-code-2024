@@ -1,62 +1,40 @@
-use crate::parser::{Data, Rule, Updates};
+use crate::{
+    helper,
+    model::{ManualUpdateData, PageUpdates, Rule},
+};
 
-pub fn solve(input: &Data) {
+pub fn solve(input: &ManualUpdateData) {
     let rules = &input.rules;
     let mut updates = input.updates.clone();
 
-    updates.retain(|update| !is_update_correct(update, &rules.iter().collect::<Vec<&Rule>>()));
+    updates.retain(|page_updates| {
+        !is_update_correct(page_updates, &rules.iter().collect::<Vec<&Rule>>())
+    });
 
-    updates.iter_mut().for_each(|updates| {
-        let aplicable_rules = rules
-            .iter()
-            .filter(|rule| does_rule_apply(rule, updates))
-            .collect::<Vec<&Rule>>();
+    updates.iter_mut().for_each(|page_updates| {
+        let aplicable_rules = applicable_rules_from(rules, page_updates);
 
-        while !is_update_correct(updates, &aplicable_rules) {
+        while !is_update_correct(page_updates, &aplicable_rules) {
             aplicable_rules.iter().for_each(|rule| {
-                let lhs_index = updates
-                    .list
-                    .iter()
-                    .position(|value| value == &rule.lhs)
-                    .unwrap();
-                let rhs_index = updates
-                    .list
-                    .iter()
-                    .position(|value| value == &rule.rhs)
-                    .unwrap();
+                let (lhs_index, rhs_index) = helper::indexes_from(rule, page_updates);
 
                 if lhs_index >= rhs_index {
-                    let element = updates.list.remove(rhs_index);
-                    updates.list.insert(lhs_index, element);
+                    let element = page_updates.list.remove(rhs_index);
+                    page_updates.list.insert(lhs_index, element);
                 }
             });
         }
     });
 
-    let result = updates
-        .iter()
-        .map(|update| {
-            let middle_index = update.list.len() / 2;
-            update.list[middle_index]
-        })
-        .sum::<usize>();
+    let result = helper::sum_from_updates_middle_element(&updates);
 
     println!("Part 2 solution: {}", result);
 }
 
-fn is_update_correct(updates: &Updates, rules: &Vec<&Rule>) -> bool {
+fn is_update_correct(updates: &PageUpdates, rules: &Vec<&Rule>) -> bool {
     rules.iter().all(|rule| {
-        if does_rule_apply(rule, updates) {
-            let lhs_index = updates
-                .list
-                .iter()
-                .position(|value| value == &rule.lhs)
-                .unwrap();
-            let rhs_index = updates
-                .list
-                .iter()
-                .position(|value| value == &rule.rhs)
-                .unwrap();
+        if helper::does_rule_apply(rule, updates) {
+            let (lhs_index, rhs_index) = helper::indexes_from(rule, updates);
 
             lhs_index < rhs_index
         } else {
@@ -65,6 +43,9 @@ fn is_update_correct(updates: &Updates, rules: &Vec<&Rule>) -> bool {
     })
 }
 
-fn does_rule_apply(rule: &Rule, updates: &Updates) -> bool {
-    updates.list.contains(&rule.lhs) && updates.list.contains(&rule.rhs)
+fn applicable_rules_from<'a>(rules: &'a Vec<Rule>, page_updates: &PageUpdates) -> Vec<&'a Rule> {
+    rules
+        .iter()
+        .filter(|rule| helper::does_rule_apply(rule, page_updates))
+        .collect::<Vec<&Rule>>()
 }

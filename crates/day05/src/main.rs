@@ -1,3 +1,5 @@
+mod helper;
+mod model;
 mod parser;
 mod part1;
 mod part2;

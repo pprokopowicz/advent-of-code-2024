@@ -4,6 +4,7 @@ use crate::{
     helper,
     model::{Coordinates, Direction, Position},
 };
+use rayon::prelude::*;
 
 #[derive(Debug, Clone, Copy)]
 enum Output {
@@ -18,28 +19,30 @@ struct LoopStart {
 }
 
 pub fn solve(input: &Vec<Vec<Position>>) {
-    let mut result = 0;
+    let result = input
+        .par_iter()
+        .enumerate()
+        .map(|(y, _)| {
+            input[y]
+                .par_iter()
+                .enumerate()
+                .map(|(x, position)| match position {
+                    Position::Free(false) => {
+                        let mut modified_map = input.clone();
+                        modified_map[y][x] = Position::Obstruction;
 
-    for y in 0..input.len() {
-        for x in 0..input[y].len() {
-            let position = input[y][x];
+                        let sim_output = map_sim_output(&modified_map);
 
-            match position {
-                Position::Free(false) => {
-                    let mut modified_map = input.clone();
-                    modified_map[y][x] = Position::Obstruction;
-
-                    let sim_output = map_sim_output(&modified_map);
-
-                    match sim_output {
-                        Output::Loop => result += 1,
-                        Output::Exit => {}
+                        match sim_output {
+                            Output::Loop => 1,
+                            Output::Exit => 0,
+                        }
                     }
-                }
-                _ => {}
-            }
-        }
-    }
+                    _ => 0,
+                })
+                .sum::<usize>()
+        })
+        .sum::<usize>();
 
     println!("Part 2 solution: {}", result);
 }

@@ -21,3 +21,4 @@ foo@bar:~$ cargo run -p day<day_number>
 - [03 - Mull It Over](crates/day03)
 - [04 - Ceres Search](crates/day04)
 - [05 - Print Queue](crates/day05)
+- [06 - Guard Gallivant](crates/day06)

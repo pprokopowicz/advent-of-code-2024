@@ -7,6 +7,18 @@ pub enum File {
     Day03,
     Day04,
     Day05,
+    Day06,
+}
+
+pub fn read_file(file: &File) -> String {
+    match fs::read_to_string(file_name(&file)) {
+        Ok(output) => output,
+        Err(_) => read_example_file(file),
+    }
+}
+
+pub fn read_example_file(file: &File) -> String {
+    fs::read_to_string(example_filename(&file)).unwrap()
 }
 
 fn file_name(file: &File) -> String {
@@ -26,12 +38,5 @@ fn example_filename(file: &File) -> String {
         format!("examples/day{}.example", index)
     } else {
         format!("examples/day0{}.example", index)
-    }
-}
-
-pub fn read_file(file: &File) -> String {
-    match fs::read_to_string(file_name(&file)) {
-        Ok(output) => output,
-        Err(_) => fs::read_to_string(example_filename(&file)).unwrap(),
     }
 }

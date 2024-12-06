@@ -1,10 +1,10 @@
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Position {
     Free(bool),
     Obstruction,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
     North,
     East,
@@ -12,7 +12,7 @@ pub enum Direction {
     West,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Coordinates {
     pub x: usize,
     pub y: usize,

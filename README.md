@@ -22,6 +22,7 @@ foo@bar:~$ cargo run -p day<day_number>
 - [04 - Ceres Search](crates/day04)
 - [05 - Print Queue](crates/day05)
 - [06 - Guard Gallivant](crates/day06)
+- [07 - Bridge Repair](crates/day07)
 
 ## Crates
 

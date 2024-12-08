@@ -29,3 +29,15 @@ pub fn frequency_map(input: &Vec<Vec<Position>>) -> HashMap<char, Vec<Coordinate
 
     frequency_map
 }
+
+pub fn difference(lhs: isize, rhs: isize) -> (isize, isize) {
+    let diff = lhs.abs_diff(rhs) as isize;
+
+    let output = if lhs > rhs {
+        (diff, -diff)
+    } else {
+        (-diff, diff)
+    };
+
+    output
+}

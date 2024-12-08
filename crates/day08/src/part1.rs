@@ -1,9 +1,12 @@
-use crate::model::{Coordinates, Position};
-use std::collections::{HashMap, HashSet};
+use crate::{
+    helper,
+    model::{Coordinates, Position},
+};
+use std::collections::HashSet;
 
 pub fn solve(input: &Vec<Vec<Position>>) {
     let mut result = HashSet::new();
-    let frequency_map = frequency_map(input);
+    let frequency_map = helper::frequency_map(input);
 
     let max_height = input.len() as isize;
     let max_len = input[0].len() as isize;
@@ -44,32 +47,4 @@ fn append(x: isize, y: isize, max_len: isize, max_height: isize, set: &mut HashS
         let node = Coordinates { x, y };
         set.insert(node);
     }
-}
-
-fn frequency_map(input: &Vec<Vec<Position>>) -> HashMap<char, Vec<Coordinates>> {
-    let mut frequency_map = HashMap::new();
-
-    for y in 0..input.len() {
-        for x in 0..input[y].len() {
-            match input[y][x] {
-                Position::Antenna(frequency) => {
-                    frequency_map
-                        .entry(frequency)
-                        .and_modify(|vec: &mut Vec<Coordinates>| {
-                            vec.push(Coordinates {
-                                x: x as isize,
-                                y: y as isize,
-                            })
-                        })
-                        .or_insert(vec![Coordinates {
-                            x: x as isize,
-                            y: y as isize,
-                        }]);
-                }
-                Position::Free => {}
-            }
-        }
-    }
-
-    frequency_map
 }

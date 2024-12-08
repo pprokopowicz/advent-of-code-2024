@@ -1,8 +1,7 @@
 use crate::model::Position;
-use reader::{read_example_file, read_file, File};
+use reader::{read_file, File};
 
 pub fn parse() -> Vec<Vec<Position>> {
-    // let content = read_example_file(&File::Day08);
     let content = read_file(&File::Day08);
 
     let output = content

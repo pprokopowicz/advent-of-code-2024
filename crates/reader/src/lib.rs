@@ -9,6 +9,7 @@ pub enum File {
     Day05,
     Day06,
     Day07,
+    Day08,
 }
 
 pub fn read_file(file: &File) -> String {
